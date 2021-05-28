@@ -1,0 +1,127 @@
+Exercici 1
+Consulta total línes taula de vols.
+	SELECT COUNT(*) FROM flights
+
+--------------------------------------------	
+
+
+Exercici 2
+Retard promig de sortida i arribada segons l’aeroport origen.
+	
+	SELECT
+    Origin,
+    AVG(ArrDelay),
+    AVG(DepDelay)
+FROM
+    flights
+GROUP BY
+    Origin
+
+-----------------------------------------
+
+
+Exercici 3
+Retard promig d’arribada dels vols, per mesos, anys i segons 
+l’aeroport origen
+
+	SELECT
+    	    Origin,
+    	    colYear,
+    	    colMonth,
+    	    AVG(ArrDelay)
+	FROM
+    	    flights
+	GROUP BY
+    	    Origin,
+    	    colYear,
+    	    colMonth
+
+---------------------------------------------
+
+
+Exercici 4
+Retard promig d’arribada dels vols, per mesos, anys i segons 
+l’aeroport origen
+en comptes del codi de l’aeroport es mostri el nom de la ciutat.
+
+SELECT
+    city,
+    colYear,
+    colMonth,
+    AVG(ArrDelay)
+FROM
+    flights
+INNER JOIN usairports ON flights.Origin = usairports.IATA
+GROUP BY
+    city,
+    colYear,
+    colMonth,
+    Origin
+ORDER BY
+    city ASC,
+    colYear ASC,
+    colMonth ASC
+
+-------------------------------------------------
+
+
+companyies amb més vols cancelats, per mesos i any.
+ordenades de forma que les companyies amb més cancel·lacions 
+apareguin les primeres.
+
+Exercici 5 
+
+SELECT
+    UniqueCarrier,
+    colYear,
+    colMonth,
+    SUM(Cancelled)
+FROM
+    flights
+GROUP BY
+    UniqueCarrier, colYear, colMonth
+ORDER BY
+    `SUM(Cancelled)` DESC
+
+
+--------------------------------------------------
+
+
+Exercici 6 
+
+L’identificador dels 10 avions que més distància han 
+recorregut fent vols.
+
+SELECT
+    TailNum,
+    SUM(Distance)
+FROM
+    flights
+WHERE
+    TailNum IS NOT NULL
+GROUP BY
+    TailNum
+ORDER BY
+    `SUM(distance)`
+DESC
+LIMIT 10
+
+
+----------------------------------------------------
+
+
+Exercici 7
+Companyies amb el seu retard promig només d’aquelles les quals els seus 
+vols arriben al seu destí amb un retràs promig major de 10 minuts.
+
+SELECT
+    UniqueCarrier,
+    AVG(ArrDelay)
+FROM
+    flights
+GROUP BY
+    UniqueCarrier
+HAVING
+    AVG(ArrDelay) > 10
+ORDER BY 2 DESC
+
